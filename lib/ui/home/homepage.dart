@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
         },
       ),
       body: Container(
-        padding: EdgeInsets.all(62),
+        padding: EdgeInsets.all(_isMobileDevice()? 8: 62),
         child: Column(
           children: [
             Text(

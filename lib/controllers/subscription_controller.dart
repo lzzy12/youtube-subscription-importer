@@ -128,8 +128,8 @@ class SubscriptionController extends GetxController {
         await _googleSignIn(["email", "profile", YouTubeApi.youtubeScope]);
         _targetClient = client;
         _targetUser.value = await _getUserInfo(client);
-        targetSubscriptions.addAll(
-            await _getSubscriptionList(client, targetUser.value));
+        // targetSubscriptions.addAll(
+        //     await _getSubscriptionList(client, targetUser.value));
       }
     } on gauth.UserConsentException catch (e) {
       onError("Sign In cancelled by user");
