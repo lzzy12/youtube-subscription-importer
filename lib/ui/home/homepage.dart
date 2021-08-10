@@ -7,9 +7,30 @@ import 'package:youtube_migrator/ui/home/creators_list.dart';
 import 'package:youtube_migrator/ui/home/progress_dialog.dart';
 
 class HomePage extends StatelessWidget {
+  bool _isMobileDevice() => Get.size.width <= 600;
+
   @override
   Widget build(BuildContext context) {
     SubscriptionController controller = Get.find();
+
+    final children = [
+      Expanded(
+        child: CreatorsList(
+          listType: ListType.source,
+        ),
+      ),
+      IconButton(
+          icon: Icon(_isMobileDevice()
+              ? Icons.keyboard_arrow_down_sharp
+              : Icons.arrow_forward_ios),
+          onPressed: () => controller.addAllCreatorsToTargetClicked()),
+      Expanded(
+        child: CreatorsList(
+          listType: ListType.target,
+        ),
+      ),
+    ];
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Obx(
@@ -50,28 +71,18 @@ class HomePage extends StatelessWidget {
               style: GoogleFonts.inconsolata(
                   fontSize: 30, fontWeight: FontWeight.bold),
             ),
+            SizedBox(height: 20,),
+            Text(
+                "Sign in to both your source and target accounts (first box is for source and second for target) to import your youtube subscriptions"),
             SizedBox(
               height: 20,
             ),
             Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CreatorsList(
-                      listType: ListType.source,
-                    ),
-                  ),
-                  IconButton(
-                      icon: Icon(Icons.arrow_forward_ios),
-                      onPressed: () =>
-                          controller.addAllCreatorsToTargetClicked()),
-                  Expanded(
-                    child: CreatorsList(
-                      listType: ListType.target,
-                    ),
-                  ),
-                ],
-              ),
+              child: _isMobileDevice()
+                  ? Column(
+                      children: children,
+                    )
+                  : Row(children: children),
             ),
           ],
         ),
