@@ -1,17 +1,9 @@
 
-import 'package:hive/hive.dart';
-part 'creator.g.dart';
-@HiveType(typeId: 1)
 class Creator {
-  @HiveField(1)
   String id;
-  @HiveField(2)
   String name;
-  @HiveField(3)
   String subscribersCountText;
-  @HiveField(4)
   bool notificationOn;
-  @HiveField(5)
   String imageUrl;
 
   Creator(

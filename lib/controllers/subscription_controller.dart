@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:googleapis_auth/auth_browser.dart' as gauth;
-import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:youtube_migrator/models/creator.dart';
 import 'package:youtube_migrator/models/user.dart';
@@ -77,12 +76,6 @@ class SubscriptionController extends GetxController {
   Future<List<Creator>> _getSubscriptionList(Client authenticatedClient,
       GoogleUser? user) async {
     var array = <Creator>[];
-    final box = await Hive.openBox('cache');
-    final cacheArray = null; //box.get(user?.email);
-    if (cacheArray != null)
-      array = List.generate(cacheArray.length, (index) => cacheArray[index]);
-    else {
-      array = <Creator>[];
       String? nextPageToken =
       await _fetchSubscribers(authenticatedClient, array);
 
@@ -90,8 +83,6 @@ class SubscriptionController extends GetxController {
         nextPageToken =
         await _fetchSubscribers(authenticatedClient, array, nextPageToken);
       }
-      box.put(user?.email, array);
-    }
     print("${array[0].name}: ${array[0].id}\n ${array[1].name}: ${array[1].id}");
     return array;
   }
